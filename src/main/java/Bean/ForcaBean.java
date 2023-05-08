@@ -88,7 +88,7 @@ public class ForcaBean {
     }
 
     public void atualizaTelaResposta() {
-        PrimeFaces.current().ajax().update(":parteSuperior");
+        PrimeFaces.current().ajax().update(":form");
     }
 
     public void limpaInputUsuario() {
