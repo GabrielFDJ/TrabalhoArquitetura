@@ -4,10 +4,8 @@
  */
 package Bean;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import src.JogoDaForca;
 import src.LetterChecker;
@@ -32,7 +30,7 @@ public class ForcaBean {
     char letraUsuario;
 
     public ForcaBean() {
-        this.mensagemResposta += notificacao.listaOpcoes();
+        this.mensagemResposta += notificacao.mensagemInicial();
     }
 
     public void validaMensagemUser() {
@@ -41,41 +39,32 @@ public class ForcaBean {
             palavraEscolhida = seletorPalavra.chooseWord();
             jogoDaForca = new JogoDaForca(palavraEscolhida);
         }
-        //if (!jogoDaForca.isFimDeJogo()) {
-            mensagemResposta += notificacao.tentativasAcertarPalavra(jogoDaForca);
+        boolean letraEncontrada = LetterChecker.checkLetter(letraUsuario, palavraEscolhida);
+        if (letraEncontrada) {
+            limpaSaidaResposta();
+            jogoDaForca.atualizaPalavraAdivinhada(letraUsuario);
+            mensagemResposta += notificacao.mensagemLetraEncontrada(letraUsuario, jogoDaForca);
             atualizaTelaResposta();
-            boolean letraEncontrada = LetterChecker.checkLetter(letraUsuario, palavraEscolhida);
-            if (letraEncontrada) {
-                jogoDaForca.atualizaPalavraAdivinhada(letraUsuario);
-                mensagemResposta += notificacao.mensagemLetraEncontrada(letraUsuario, jogoDaForca);
-                atualizaTelaResposta();
-                limpaInputUsuario();
-                if (jogoDaForca.isVitoria()) {
-                    limpaSaidaResposta();
-                    mensagemResposta += notificacao.mensagemVitoria(palavraEscolhida);
-                    mensagemResposta += notificacao.mensagemContinuacaoJogo();
-                    jogoIniciou = false;
-                }
-            } else {
-                jogoDaForca.diminuiTentativasRestantes();
-                mensagemResposta += notificacao.mensagemLetraNaoEncontrada(letraUsuario, jogoDaForca);
-                atualizaTelaResposta();
-                limpaInputUsuario();
-                if (jogoDaForca.isFimDeJogo()) {
-                    limpaSaidaResposta();
-                    mensagemResposta += notificacao.mensagemDerrota(palavraEscolhida);
-                    mensagemResposta += notificacao.mensagemContinuacaoJogo();
-                    jogoIniciou = false;
-                }
+            limpaInputUsuario();
+            if (jogoDaForca.isVitoria()) {
+                limpaSaidaResposta();
+                mensagemResposta += notificacao.mensagemVitoria(palavraEscolhida);
+                mensagemResposta += notificacao.mensagemContinuacaoJogo();
+                jogoIniciou = false;
             }
-        //}
-    }
-
-    public void opcao(int opcao) {
-        this.opcao = opcao;
-        //this.mensagemResposta += notificacao.opcaoEscolhida(opcao, jogoIniciou);
-        jogoIniciou = true;
-        atualizaTelaResposta();
+        } else {
+            limpaSaidaResposta();
+            jogoDaForca.diminuiTentativasRestantes();
+            mensagemResposta += notificacao.mensagemLetraNaoEncontrada(letraUsuario, jogoDaForca);
+            atualizaTelaResposta();
+            limpaInputUsuario();
+            if (jogoDaForca.isFimDeJogo()) {
+                limpaSaidaResposta();
+                mensagemResposta += notificacao.mensagemDerrota(palavraEscolhida);
+                mensagemResposta += notificacao.mensagemContinuacaoJogo();
+                jogoIniciou = false;
+            }
+        }
     }
 
     public void limpaSaidaResposta() {

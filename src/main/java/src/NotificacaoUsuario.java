@@ -12,27 +12,10 @@ import org.primefaces.PrimeFaces;
  */
 public class NotificacaoUsuario {
 
-    public String listaOpcoes() {
-        String mensagemOpcoes = "\nAqui você verá o seu progresso:";
-        return mensagemOpcoes;
+    public String mensagemInicial() {       
+        return "\nAqui você verá o seu progresso:";
     }
 
-    /*public String opcaoEscolhida(int opcao, boolean jogoIniciou) {
-        String mensagemOpcaoEscolhida = "";
-        if (opcao == 1 && !jogoIniciou) {
-            mensagemOpcaoEscolhida = "\nOpção " + opcao + " escolhida"
-                    + "\nProssiga digitando uma letra abaixo";
-        }
-        if (opcao == 2 && !jogoIniciou) {
-            mensagemOpcaoEscolhida = "\nOpção " + opcao + " escolhida"
-                    + "\nProssiga digitando a nova palavra abaixo";
-        }
-        if (jogoIniciou) {
-            mensagemOpcaoEscolhida = "\nTermine o jogo em andamento para escolher outra opção!";
-        }
-        return mensagemOpcaoEscolhida;
-    }*/
-    
     public String mensagemContinuacaoJogo(){
         return "\nPara continuar jogando apenas digite outra letra abaixo";
     }
@@ -42,11 +25,13 @@ public class NotificacaoUsuario {
     }
 
     public String mensagemLetraEncontrada(char letraUsuario, JogoDaForca jogoDaForca) {
-        return "\nA letra " + letraUsuario + " foi encontrada na palavra!" + "\nPalavra: " + jogoDaForca.getPalavraAdivinhada();
+        return "\nAqui você verá o seu progresso:" + "\nTentativas restantes: " + jogoDaForca.getTentativasRestantes()+ "\nA letra " + letraUsuario + " foi encontrada na palavra!"
+        + "\nPalavra: " + jogoDaForca.getPalavraAdivinhada();
     }
     
     public String mensagemLetraNaoEncontrada(char letraUsuario, JogoDaForca jogoDaForca) {
-        return "\nA letra " + letraUsuario + " não foi encontrada na palavra..."  + "\nPalavra: " + jogoDaForca.getPalavraAdivinhada();
+        return "\nAqui você verá o seu progresso:" + "\nTentativas restantes: " + jogoDaForca.getTentativasRestantes()+ "\nA letra " + letraUsuario + " não foi encontrada na palavra..."
+        + "\nPalavra: " + jogoDaForca.getPalavraAdivinhada();
     }
 
     public String mensagemVitoria(String palavraEscolhida) {
